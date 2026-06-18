@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heróis das Alturas - Prédios em Movimento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --panel: rgba(0, 0, 0, 0.65);
+            --card: rgba(255, 255, 255, 0.12);
+            --accent: #f2b92a;
+            --text: #f0f0f5;
+            --muted: #c2c4d0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            min-height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg-color);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body {
+            position: relative;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.45) saturate(1.1);
+            animation: drift 20s infinite alternate ease-in-out;
+            z-index: -2;
+        }
+
+        .background::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top center, rgba(255,255,255,0.08), transparent 35%),
+                        linear-gradient(180deg, rgba(15,23,42,0.4), rgba(0,0,0,0.7));
+        }
+
+        @keyframes drift {
+            0% { transform: scale(1.01) translateX(-10px) translateY(0); }
+            50% { transform: scale(1.02) translateX(10px) translateY(-8px); }
+            100% { transform: scale(1.01) translateX(-6px) translateY(4px); }
+        }
+
+        .topbar {
+            width: min(1200px, 92%);
+            margin: 0 auto;
+            padding: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .topbar h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(2rem, 2.5vw, 3rem);
+            letter-spacing: 0.05em;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .page-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .page-button {
+            border: 1px solid rgba(255,255,255,0.28);
+            background: rgba(0,0,0,0.42);
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.22s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .page-button:hover,
+        .page-button.active {
+            border-color: var(--accent);
+            background: rgba(242,185,42,0.2);
+            transform: translateY(-1px);
+        }
+
+        .app-shell {
+            width: min(1200px, 92%);
+            margin: 0 auto 40px;
+            padding-bottom: 40px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.45s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+        }
+
+        .panel h2 {
+            margin-bottom: 18px;
+            font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+        }
+
+        .panel p {
+            line-height: 1.8;
+            color: var(--muted);
+            margin-bottom: 22px;
+            max-width: 100%;
+        }
+
+        .feature-card {
+            display: grid;
+            gap: 18px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .feature-card img {
+            width: 100%;
+            border-radius: 18px;
+            object-fit: cover;
+            min-height: 260px;
+            filter: drop-shadow(0 20px 45px rgba(0,0,0,0.35));
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: #e8e8ed;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .info-grid div {
+            background: rgba(242,185,42,0.08);
+            border-radius: 18px;
+            padding: 18px;
+            border: 1px solid rgba(242,185,42,0.18);
+        }
+
+        .info-grid h3 {
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        footer {
+            width: min(1200px, 92%);
+            margin: 0 auto 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 760px) {
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-nav {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <header class="topbar">
+        <div>
+            <h1>Heróis das Alturas</h1>
+            <p class="subtitle">Do alto dos prédios para a realidade da profissão</p>
+        </div>
+        <nav class="page-nav">
+            <button class="page-button active" data-page="page1">Página 1</button>
+            <button class="page-button" data-page="page2">Página 2</button>
+        </nav>
+    </header>
+
+    <main class="app-shell">
+        <section id="page1" class="page active">
+            <div class="panel">
+                <h2>Profissão de Limpeza de Fachadas</h2>
+                <p>Essa é uma atividade emocionante e desafiadora: profissionais pendurados em cordas limpam vidraças e fachadas de arranha-céus, enfrentando vento, altura e estruturas imponentes.</p>
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80" alt="Limpador de vidros em prédio alto">
+                    <p>A imagem do prédio no fundo dá a sensação de movimento, como se a construção estivesse viva e interagindo com o ambiente.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page2" class="page">
+            <div class="panel">
+                <h2>Segurança e Perigos em Foco</h2>
+                <p>Apesar do cenário incrível, o trabalho exige disciplina total. A combinação de suspensão, altura e equipamentos faz com que cada movimento seja crítico.</p>
+                <div class="feature-card">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80" alt="Equipamentos de segurança e altura">
+                    <p>O fundo do edifício com reflexos e sombras cria uma sensação de prédio em movimento, reforçando a ideia de interação visual e dinamismo.</p>
+                </div>
+                <div class="info-grid">
+                    <div>
+                        <h3>Precaução</h3>
+                        <p>Uso de EPIs adequados e inspeções constantes são obrigatórios para manter a segurança no trabalho.</p>
+                    </div>
+                    <div>
+                        <h3>Treinamento</h3>
+                        <p>Somente profissionais treinados e certificados devem subir em fachadas para realizar essas tarefas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>2 páginas com fundo animado de prédio em movimento &copy; 2026</p>
+    </footer>
+
+    <script>
+        const buttons = document.querySelectorAll('.page-button');
+        const pages = document.querySelectorAll('.page');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                pages.forEach(page => page.classList.remove('active'));
+                button.classList.add('active');
+                document.getElementById(button.dataset.page).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
